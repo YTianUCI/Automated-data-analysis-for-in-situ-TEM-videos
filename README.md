@@ -50,6 +50,9 @@ There are mainly two modules: atom orientation mapping and grain segmentation.
 ### Atom orientation mapping
 
 In HRTEM images, atom columns are visible when the crystal is on zone axis. The orientation of atoms can be determined from the arrangement of the neighbor atoms. Here we borrow the idea of template matching (P. M. Larsen et al. Robust Structural Identification via Polyhedral Template Matching, Modelling Simul. Mater. Sci. Eng. 24, 055007 (2016), doi:10.1088/0965-0393/24/5/055007). Following is the flowchart:
+<img src="images/OrientationMapping.png" alt="Logo" width="80" height="80">
+Image is first processed by FFT filter. Then atoms in the image are detected by LoG blob detection. Voronoi analysis is used to represent the local environment of atoms. Template matching is therefore conducted on each voronoi cell of the atoms, yielding the orientation of the atoms. In this way, we get the atom orientation mapping. 
+For the usage, please refer to Atom_orientation_mapping.ipynb.
 
 ### Grain segmentation
 
