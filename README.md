@@ -71,8 +71,6 @@ For the usage, please refer to Grain_Segmentation_HRTEM.ipynb.
 
 Yuan Tian - tiany17@uci.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
