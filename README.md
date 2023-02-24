@@ -52,11 +52,11 @@ FFT was firstly performed on the HRTEM image. Then diffraction spots was detecte
 For the usage, please refer to Grain_Segmentation_HRTEM.ipynb.
 
 ### Atom trajectory tracking
-Motions of atoms between frames are traced in in situ videos with atomic resolution. The atomic displacement is plotted:  
+Motions of atoms between frames are traced in in situ videos with atomic resolution. For example, in the following images showing the shear displacement of two grains caused by shear coupled grain boundary migration, The atomic displacement is plotted:  
 <img src="image/DispMap.png" alt="Logo" width="400" height="250">  
 Statistical analysis can be conducted on the distribution of the atom displacement:  
 <img src="image/DispDist.png" alt="Logo" width="400" height="250">  
-This can be used to reflect and analyze diffusion driven or stress driven displacement of atoms. 
+This can be used to reflect and analyze the displacement of atoms driven by stress, diffusion, etc. 
 For the usage, please refer to Atom trajectory tracing.ipynb. 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -86,7 +86,7 @@ Yuan Tian - tiany17@uci.com
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-This project is supported by Army Research Office (ARO) Project about grain boundary dynamics. 
+This project is supported by Army Research Office (ARO) Project about grain boundary dynamics. The code was developed initially for the analysis of in situ videos of grain boundary dynamics in polycrystal materials. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
