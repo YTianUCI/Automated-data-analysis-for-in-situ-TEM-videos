@@ -35,7 +35,7 @@
 Atomic resolution transmission electron microscopy (TEM) image gives tremendous structural imformation of the materials. However, only limited information was utilized in most of the TEM related researches due to the great challenge in quantatitive analysis of TEM images. And the quality of data analysis relies very much on the experience of the researchers. For in situ atomic resolution TEM, the challange is even greater since the dataset typically contains thousands of images.  
 To tackle this issue, automating image process and data mining process is necessary. One of the most important tasks is the grain segmentation, which could give the morphologies of nanocrystals and the grain boundaries of polycrystals. This is also the prerequsite step for automated strain analysis, defect analysis, etc. 
 Therefore, for this project, we are motivated to develop automated grain segmentation alogrithm for atomic resolution TEM images (HRTEM, STEM, etc.) of crystalline samples based on lattice pattern. 
-There are mainly two modules: atom orientation mapping and grain segmentation. 
+There are mainly three modules: atom orientation mapping, grain segmentation and atom tracing. 
 
 ### Atom orientation mapping
 
@@ -50,6 +50,14 @@ The feature used for grain segmentation of HRTEM images is the lattice translati
 <img src="image/GrainSeg.png" alt="Logo" width="750" height="500">  
 FFT was firstly performed on the HRTEM image. Then diffraction spots was detected using LoG blob detection. Then each spot was selected and masked for inverse FFT, which gives the rough location for the origin of that order (grain location). By comparing the overlapping, we can find the spots (periodic orders) for the same grain. These spots are grouped as the spots for same grain. Then, we select and mask the spots for same grain, perform inverse FFT and get the real space image that filtered other forbidden orders. After that, LoG blob detection was used to detect atom locations in the iFFT images. This gives the atom locations for that grain. However, due to the signal leakage issue of cropped FFT, the observed order in iFFT image would be larger than the real periodic order of that grain. Therefore, more atoms would be detected in iFFT image than the real case. To takle this issue, we also perform LoG detection in the original image. By comparing the atom locations in iFFT image and original image, we then filtered the falsely detected atoms in iFFT image. (Due to the probable overlap of falsely detected atoms with real atomic locations, this process is complicated. It was solved by s-t graph cut.) By repeating this on the FFT spots of each grain, we finally get the atoms labelled based on the parent grains.   
 For the usage, please refer to Grain_Segmentation_HRTEM.ipynb.
+
+### Atom trajectory tracking
+Motions of atoms between frames are traced in in situ videos with atomic resolution. The atomic displacement is plotted:  
+<img src="image/DispMap.png" alt="Logo" width="400" height="250">  
+Statistical analysis can be conducted on the distribution of the atom displacement:  
+<img src="image/DispDist.png" alt="Logo" width="400" height="250">  
+This can be used to reflect and analyze diffusion driven or stress driven displacement of atoms. 
+For the usage, please refer to Atom trajectory tracing.ipynb. 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
