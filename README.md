@@ -35,7 +35,7 @@
 Atomic resolution transmission electron microscopy (TEM) image gives tremendous structural imformation of the materials. However, only limited information was utilized in most of the TEM related researches due to the great challenge in quantatitive analysis of TEM images. And the quality of data analysis relies very much on the experience of the researchers. For in situ atomic resolution TEM, the challange is even greater since the dataset typically contains thousands of images.  
 To tackle this issue, automating image process and data mining process is necessary. One of the most important tasks is the grain segmentation, which could give the morphologies of nanocrystals and the grain boundaries of polycrystals. This is also the prerequsite step for automated strain analysis, defect analysis, etc. 
 Therefore, for this project, we are motivated to develop automated grain segmentation alogrithm for atomic resolution TEM images (HRTEM, STEM, etc.) of crystalline samples based on lattice pattern. 
-There are mainly three modules: atom orientation mapping, grain segmentation and atom tracing. 
+There are mainly three modules: atom orientation mapping, grain segmentation and atom tracing. Video drift correction is also included as preprocessing in the seperate notebook. 
 
 ### Atom orientation mapping
 
