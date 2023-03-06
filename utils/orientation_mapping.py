@@ -12,6 +12,7 @@ from scipy import fftpack
 from skimage.exposure import rescale_intensity
 from scipy.ndimage import gaussian_filter
 from copy import deepcopy
+import networkx as nx
 
 mappings= [
     [0,1,2,3,4,5],
@@ -214,3 +215,98 @@ def get_template_factors(img_template):
     ideal_vectors=displacement
     angle_ideal = angle[np.argsort(angle)]
     return ideal_vectors, angle_ideal
+
+
+#######################################################
+""" Lattice relaxation"""
+#######################################################
+def get_graph_relaxation(points, bond_thres = False, node_info=None):
+    vor = Voronoi(points)
+    G = nx.Graph()
+    G.add_nodes_from(range(len(vor.points)))
+    G.add_edges_from(vor.ridge_points)
+    for i in G.nodes:
+        G.nodes[i]['loc'] = points[i]
+        
+        #### remove edge too long
+    ridge_length = []
+    for x,y in vor.ridge_points:
+        length = np.linalg.norm(vor.points[x] - vor.points[y])
+        ridge_length.append(length)
+
+    ridge_length = np.array(ridge_length)
+    ridge_length_med = np.median(ridge_length)
+    if not bond_thres:
+        bond_thres = ridge_length_med*1.5
+
+    edges_to_remove = []
+    for i in range(len(ridge_length)):
+        if ridge_length[i] > bond_thres:                 # hyperparameter
+            edges_to_remove.append(vor.ridge_points[i])
+
+    edges_to_remove = np.array(edges_to_remove)
+
+    G.remove_edges_from(edges_to_remove)
+
+        
+    if isinstance(node_info, np.ndarray):
+        if node_info.shape[0] != points.shape[0]: print("node_info length not equal to number of points")
+        for i in range(points.shape[0]):
+            G.nodes[i]['index'] = node_info[i]
+            
+    # remove nodes with two or less edges
+    while True:
+        nodes_to_remove = []
+        for i in G.nodes:
+            if len(G.edges(i))<=2:
+                nodes_to_remove.append(i)    
+        if nodes_to_remove == []: break
+        G.remove_nodes_from(nodes_to_remove)
+    # define k and l0 for every edge
+    for edge in G.edges:
+        G[edge[0]][edge[1]]['k'] = 1
+        G[edge[0]][edge[1]]['l0'] = 0 #ridge_length.mean(), to be adjusted
+    return G
+
+def bond_force(G, node):
+    net_force = np.zeros(2)
+    for n1, n2, data in G.edges(node, data=True):
+        # Calculate the force exerted by the spring using Hooke's law
+        vector = G.nodes[n2]['loc'] - G.nodes[n1]['loc']
+        spring_force = data['k'] * (vector - data['l0']*vector/np.linalg.norm(vector))
+        # Add the spring force to the net force
+        net_force += spring_force
+    return net_force
+
+
+def image_force(image, loc):
+    net_force = np.zeros(2)
+    sobel_kernel_x = -1*np.array([[1,0,-1],[2,0,-2],[1,0,-1]]).T
+    sobel_kernel_y = -1*np.array([[1,0,-1],[2,0,-2],[1,0,-1]])
+    local_area = image[loc[0]-1:loc[0]+2,loc[1]-1:loc[1]+2]
+    net_force[0] = (sobel_kernel_x*local_area).sum()
+    net_force[1] = (sobel_kernel_y*local_area).sum()
+    return net_force
+
+
+def lattice_relax(G, image, epoch, beta, step, max_bond_force):
+    disp = []
+    for i in G.nodes:
+        G.nodes[i]['bond_force'] = bond_force(G,i)
+    for i in G.nodes:
+        loc = G.nodes[i]['loc'].astype(int)
+        G.nodes[i]['image_force'] = image_force(image,loc)/10
+    for _ in tqdm(range(epoch)):
+        total_disp = np.zeros(2)
+        for i in G.nodes:
+            loc = G.nodes[i]['loc'].astype(int)
+            G.nodes[i]['bond_force'] = bond_force(G,i) if np.linalg.norm(bond_force(G,i)) < max_bond_force else max_bond_force*bond_force(G,i)/np.linalg.norm(bond_force(G,i))
+            G.nodes[i]['image_force'] = image_force(image,loc)
+            G.nodes[i]['net_force'] = beta*G.nodes[i]['bond_force'] + G.nodes[i]['image_force']/20
+        for i in G.nodes:
+            if len(list(G.neighbors(i))) != 6:
+                continue;
+            G.nodes[i]['loc'] = G.nodes[i]['loc'] + G.nodes[i]['net_force']*step
+            total_disp = total_disp + np.linalg.norm(G.nodes[i]['net_force']*step)
+        disp.append(total_disp)
+    return disp
