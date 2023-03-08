@@ -91,7 +91,7 @@ Yuan Tian - tiany17@uci.com
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-This project is supported by Army Research Office (ARO) Project about grain boundary dynamics. The code was developed initially for the analysis of in situ videos of grain boundary dynamics in polycrystal materials. 
+This project is supported by Army Research Office (ARO) Project about grain boundary dynamics. The code was developed initially for the analysis of in situ videos of grain boundary dynamics in polycrystal materials. The data was collected at Irvine Materials Research Institute (IMRI), UCI. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
