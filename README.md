@@ -1,10 +1,10 @@
-# Lattice-based Grain Segmentation for HRTEM images and videos
+# Automated-data-analysis-for-in-situ-TEM-videos
 
 <a name="readme-top"></a>
 
 <br />
 <div align="center">
-  <h3 align="center">an automated atomic resolution TEM image process and analysis pipeline</h3>
+  <h3 align="center">a lattice-based automated atomic resolution TEM image process and analysis pipeline</h3>
   <p align="center">
     <br />
     <br />
