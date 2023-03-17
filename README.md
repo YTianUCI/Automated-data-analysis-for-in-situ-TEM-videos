@@ -65,7 +65,7 @@ There are generally two methods for strain mapping of HRTEM images, respectively
 reciprocal space. Here we adopt the method of PPA in real space and generalize it to polycrystalline regions.  
 Before we start, we would like to deal with the drift noise of STEM images. If you work with HRTEM image, please feel free to ignore this part. We use lattice relaxation method to complete the task of denoise:  
 <img src="image/LatticeRelaxation.png" alt="Logo" width="700" height="450">  
-We try to rebalance the regularity of the lattice with the observation of lattice points. By balance the image and lattice force, we can achieve the effect of denoise. The strength of denoise can be adjusted by the ratio between image force and lattice force.  
+We try to rebalance the regularity of the lattice with the observation of lattice points. By balance the image and lattice force, we can achieve the effect of denoise. Since the boundary atoms are fixed, the total strain is conserved in this process. The strength of denoise can be adjusted by the ratio between image force and lattice force.  
 <!-- ROADMAP -->
 ## Roadmap
 
