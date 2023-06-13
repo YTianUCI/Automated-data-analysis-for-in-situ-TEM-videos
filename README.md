@@ -67,9 +67,9 @@ Before we start, we would like to deal with the drift noise of STEM images. If y
 <img src="image/LatticeRelaxation.png" alt="Logo" width="700" height="450">  
 We try to rebalance the regularity of the lattice with the observation of lattice points. By balance the image and lattice force, we can achieve the effect of denoise. Since the boundary atoms are fixed, the total strain is conserved in this process. The strength of denoise can be adjusted by the ratio between image force and lattice force.  
 Then we can start to conduct strain mapping on polycrystal images. To begin with, we need to select a reference lattice for strain mapping. This is done by manually select the reference area and two FFT spots, as shown in the following Figure.  
-<img src="image/AutoTemplate.png" alt="Logo" width="700" height="450">  
+<img src="image/AutoTemplate.png" alt="Logo" width="700" height="220">  
 Then, the atom locations are found in a subpixel way. After that, the relative locations of the atoms and their neighbors give the information of strain as well as orientation. The final result is shown in the following:  
-<img src="image/strain_mapping.png" alt="Logo" width="700" height="450">  
+<img src="image/strain_mapping.png" alt="Logo" width="700" height="630">  
 
 <!-- ROADMAP -->
 ## Roadmap
