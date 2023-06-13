@@ -62,16 +62,21 @@ For the usage, please refer to Atom trajectory tracing.ipynb.
 
 ### Strain mapping
 There are generally two methods for strain mapping of HRTEM images, respectively the Peak Pair Algorithm (PPA) in real space and Geometric Phase Analyais (GPA) in 
-reciprocal space. Here we adopt the method of PPA in real space and generalize it to polycrystalline regions.  
+reciprocal space. Unfortornately, both of these two methods can only take one structure as the reference for strain calculation, which makes them not applicable to the exhibit the strain in multiple lattices simutaneously and consistently. To solve this issue, we adopt the method of PPA in real space and generalize it to polycrystalline regions by defining a consistent template as the reference, and incooperating rotational component for the matching process (as we did in the orientation mapping). Clearly, with the definition of consistent template, this method can then be applied to in situ videos to show the evolution of strain.  
 Before we start, we would like to deal with the drift noise of STEM images. If you work with HRTEM image, please feel free to ignore this part. We use lattice relaxation method to complete the task of denoise:  
 <img src="image/LatticeRelaxation.png" alt="Logo" width="700" height="450">  
 We try to rebalance the regularity of the lattice with the observation of lattice points. By balance the image and lattice force, we can achieve the effect of denoise. Since the boundary atoms are fixed, the total strain is conserved in this process. The strength of denoise can be adjusted by the ratio between image force and lattice force.  
+Then we can start to conduct strain mapping on polycrystal images. To begin with, we need to select a reference lattice for strain mapping. This is done by manually select the reference area and two FFT spots, as shown in the following Figure.  
+<img src="image/AutoTemplate.png" alt="Logo" width="700" height="450">  
+Then, the atom locations are found in a subpixel way. After that, the relative locations of the atoms and their neighbors give the information of strain as well as orientation. The final result is shown in the following:  
+<img src="image/strain_mapping.png" alt="Logo" width="700" height="450">  
+
 <!-- ROADMAP -->
 ## Roadmap
 
 - [x] Atom orientation mapping
 - [x] Grain segmentation
-- [ ] Polycrystal strain mapping
+- [x] Polycrystal strain mapping
 - [ ] Crystallographic defect detection
 
 
