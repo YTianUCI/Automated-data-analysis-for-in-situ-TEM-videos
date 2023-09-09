@@ -70,7 +70,8 @@ Then we can start to conduct strain mapping on polycrystal images. To begin with
 <img src="image/AutoTemplate.png" alt="Logo" width="700" height="220">  
 Then, the atom locations are found in a subpixel way. After that, the relative locations of the atoms and their neighbors give the information of strain as well as orientation. The final result is shown in the following:  
 <img src="image/strain_mapping.png" alt="Logo" width="700" height="630">  
-
+By taking the averaged lattice of the first frame as reference, we are able to get the time resolved strain mapping. Then a lot of analysis can be conducted. For example, we can select an area and get the temporal evolution of averaged strain in that area, as shown in the following:  
+<img src="image/Strain_evolution.png" alt="Logo" width="1300" height="550">  
 <!-- ROADMAP -->
 ## Roadmap
 
