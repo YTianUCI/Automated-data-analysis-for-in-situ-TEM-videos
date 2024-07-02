@@ -69,13 +69,16 @@ def fft_filtered_image(image, Peak_start, Peak_end):
     im_filtered = fftpack.ifft2(fftpack.ifftshift(F2)).real
     return im_filtered
 
-def find_diff_spots(image_filtered, threshold):
+def find_diff_spots(image_filtered, threshold, direction = 'y'):
     F1 = fftpack.fft2((image_filtered).astype(float))
     F2 = abs(fftpack.fftshift(F1))
     F2 /= F2[F2!=0].min()
     F2 = rescale_intensity(F2, out_range=(0,255))
     F2 = gaussian_filter(F2,2)
-    blobs_log = blob_log(F2[:,:np.array(F2.shape[0])//2], min_sigma = 2, max_sigma=6, threshold=threshold)  
+    if direction == 'y':
+        blobs_log = blob_log(F2[:,:np.array(F2.shape[0])//2], min_sigma = 2, max_sigma=6, threshold=threshold)  
+    else:
+        blobs_log = blob_log(F2[:np.array(F2.shape[0])//2,:], min_sigma = 2, max_sigma=6, threshold=threshold)  
     return F2, blobs_log
 
 def get_grain_from_binary_mapping(blobs, size_thres):
@@ -89,7 +92,7 @@ def get_grain_from_binary_mapping(blobs, size_thres):
         object_crystal_list += object_crystal
     return object_crystal_list
 
-def group_diff_spots(image, blobs_log, size_thres, R_diffspot, overlap_thres):
+def group_diff_spots(image, blobs_log, size_thres, grain_mask_thres, R_diffspot, overlap_thres):
     F1 = fftpack.fft2((image).astype(float))
     F2 = fftpack.fftshift(F1)
     object_crystal_areas = []
@@ -106,7 +109,7 @@ def group_diff_spots(image, blobs_log, size_thres, R_diffspot, overlap_thres):
         otsu_threshold, image_result = cv2.threshold(
             im1, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU,
             )
-        blobs = im1 > otsu_threshold
+        blobs = im1 > otsu_threshold*grain_mask_thres
         object_crystal = get_grain_from_binary_mapping(blobs, size_thres)
         object_crystal_areas.append(object_crystal)
         diffraction_spot_list.append(blobs_log[i,:2].astype(int)[::-1])
